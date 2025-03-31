@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Characters {
+  id               Int       @id @default(autoincrement())
+  name             String?   @db.VarChar(255)
+  gender           String?   @db.VarChar(255)
+  ability          String?   @db.VarChar(255)
+  minimal_distance Float?
+  weight           Float?
+  born             DateTime? @db.Timestamptz(6)
+  in_space_since   DateTime? @db.Timestamptz(6)
+  beer_consumtion  Int?
+  knows_the_answer Boolean?
+  createdAt        DateTime  @db.Timestamptz(6)
+  updatedAt        DateTime  @db.Timestamptz(6)
+}
+
+model character {
+  id               Int       @id @default(autoincrement())
+  name             String
+  gender           String?
+  ability          String
+  minimal_distance Decimal   @db.Decimal
+  weight           Decimal?  @db.Decimal
+  born             DateTime  @db.Timestamp(6)
+  in_space_since   DateTime? @db.Timestamp(6)
+  beer_consumption Int
+  knows_the_answer Boolean
+  nemesis          nemesis[]
+}
+
+model characters {
+  id               Int                     @id @default(autoincrement())
+  name             String                  @db.VarChar(255)
+  gender           enum_characters_gender?
+  ability          String?                 @db.VarChar(255)
+  weight           Float?
+  born             DateTime?               @db.Timestamptz(6)
+  in_space_since   DateTime?               @db.Timestamptz(6)
+  beer_consumption Int?
+  knows_the_answer Boolean?
+}
+
+model messenger_messages {
+  id           BigInt    @id @default(autoincrement())
+  body         String
+  headers      String
+  queue_name   String    @db.VarChar(190)
+  created_at   DateTime  @db.Timestamp(0)
+  available_at DateTime  @db.Timestamp(0)
+  delivered_at DateTime? @db.Timestamp(0)
+
+  @@index([delivered_at], map: "idx_75ea56e016ba31db")
+  @@index([available_at], map: "idx_75ea56e0e3bd61ce")
+  @@index([queue_name], map: "idx_75ea56e0fb7336f0")
+}
+
+model nemesis {
+  is_alive     Boolean
+  years        Int?
+  id           Int        @id @default(autoincrement())
+  character_id Int?
+  character    character? @relation(fields: [character_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "character")
+  secret       secret[]
+
+  @@index([id], map: "fki_Character Id")
+}
+
+model secret {
+  id          Int     @id(map: "secrete_pkey") @default(autoincrement())
+  secret_code BigInt
+  nemesis_id  Int
+  nemesis     nemesis @relation(fields: [nemesis_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "nemesis")
+}
+
+enum enum_character_gender {
+  male
+  female
+  other
+}
+
+enum enum_characters_gender {
+  male
+  female
+  other
+}
