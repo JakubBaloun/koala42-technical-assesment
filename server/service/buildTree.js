@@ -53,7 +53,7 @@ const buildTree = async () => {
         data: {
           id: secret.id,
           nemesis_id: secret.nemesis_id,
-          secret_code: secret.secret_code.toString(),
+          secret_code: Number(secret.secret_code),
         },
       }));
 
