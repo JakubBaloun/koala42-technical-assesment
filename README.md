@@ -2,7 +2,7 @@
 
 Backendová aplikace postavená v Node.js a Expressu, která přistupuje k PostgreSQL databázi a vrací stromovou strukturu postav, jejich nepřátel a tajných kódů. Součástí odpovědi jsou i základní statistiky.
 
-Tato aplikace byla vytvořena jako ttechnical assessment pro společnost **Koala42**.
+Tato aplikace byla vytvořena jako technical assessment pro společnost **Koala42**.
 
 ---
 
